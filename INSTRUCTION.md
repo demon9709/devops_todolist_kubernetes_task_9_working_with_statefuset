@@ -29,21 +29,21 @@ All pods should be in the `Running` state.
 
 ## 3. Validate Django app deployment
 
-Check that the Django app deployment is running and ready (replace `<app-deployment-name>` with your actual deployment name):
+Check that the Django app deployment is running and ready:
 
 ```sh
-kubectl -n default get pods
-kubectl -n default rollout status deploy/<app-deployment-name>
+kubectl -n todoapp get pods
+kubectl -n todoapp rollout status deploy/todoapp
 ```
 
 ---
 
 ## 4. Port-forward to access the Django app
 
-Expose the Django app locally (replace `<app-deployment-name>`):
+Expose the Django app locally:
 
 ```sh
-kubectl -n default port-forward deploy/<app-deployment-name> 8000:8000
+kubectl -n todoapp port-forward deploy/todoapp 8080:8000
 ```
 
 Open [http://localhost:8000](http://localhost:8000) in your browser to verify the app is accessible.
@@ -67,13 +67,13 @@ You should see `todolist` in the output.
 - If any pod is not running, check logs:
   ```sh
   kubectl -n mysql logs mysql-0
-  kubectl -n default logs <app-deployment-name>
+  kubectl -n todoapp logs todoapp
   ```
 - Ensure all secrets and configmaps exist in the correct namespaces:
   ```sh
   kubectl get secret -n mysql
   kubectl get configmap -n mysql
-  kubectl get secret -n default
+  kubectl get secret -n todoapp
   ```
 
 ---
@@ -91,4 +91,4 @@ kind delete cluster
 **End-to-end validation is complete when:**
 - All pods are running
 - The Django app is accessible
-- The MySQL database is initialized and reachable from
+- The MySQL database is initialized and reachable from the app
